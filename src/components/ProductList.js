@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import AddCart from "./AddCart";
 import FormInput from "./FormInput";
+
 const ProductList = () => {
   // const [productAdded, setProductAdded] = useState(false);
   const [addToCarts, setAddToCart] = useState([]);

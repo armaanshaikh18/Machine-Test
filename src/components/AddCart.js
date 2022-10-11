@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const AddCart = (props) => {
-  // console.log("props", props);
-  const [remove, setremove] = useState(0);
-  const [count, setCount] = useState();
+const AddCart = () => {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("addToCart"))
   );
@@ -12,50 +9,6 @@ const AddCart = (props) => {
     price: 0,
   });
 
-  // const removeProduct = (index) => {
-  //   const allRemove = [...remove];
-  //   allRemove.splice(index, 1);
-  //   console.log("allRemove", allRemove);
-  //   setremove(allRemove);
-  // };
-
-  const deleteTask = (index) => {
-    let cartDataFromLocalStorage = JSON.parse(localStorage.getItem("addToCart"))
-      ? JSON.parse(localStorage.getItem("addToCart"))
-      : [];
-    //filter out
-    cartDataFromLocalStorage = cartDataFromLocalStorage.filter(
-      (products) => products.index !== index
-    );
-    console.log("cart", cartDataFromLocalStorage);
-    //set tasks in local storage
-    //localStorage.setItem("addToCart", JSON.stringify(cartDataFromLocalStorage));
-    console.log("cart", cartDataFromLocalStorage);
-
-    //set rerender
-    setremove((remove) => remove + 1);
-  };
-  const addItems = (plus) => {
-    plus = plus.trim();
-    let addDataFromLocalStorage = JSON.parse(localStorage.getItem("addToCart"))
-      ? JSON.parse(localStorage.getItem("addToCart"))
-      : [];
-    let add = [];
-    if (addDataFromLocalStorage) {
-      add = [...addDataFromLocalStorage];
-    }
-    add.push({
-      price: plus,
-      products: plus,
-      // id: Math.floor(Math.random() * 200 + 10),
-    });
-
-    //set tasks in local storage
-    // localStorage.setItem("addToCart", JSON.stringify(plus));
-
-    //set rerender
-    setremove((remove) => remove + 1);
-  };
   const handleAddition = (index) => {
     const newProjects = cart.map((p, i) =>
       i === index ? { ...p, count: cart[index]?.count + 1 } : p
