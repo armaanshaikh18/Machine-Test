@@ -1,80 +1,91 @@
 import React, { useState, useEffect } from "react";
 import FormInput from "./FormInput";
 
-const ProductList = () => {
-  // const [productAdded, setProductAdded] = useState(false);
-  const [addToCarts, setAddToCart] = useState([]);
-
-  const [products, setProducts] = useState([
-    {
-      products: "KeyChain",
-      price: 120,
-      cart: false,
-      count: 1,
-    },
-    {
-      products: "Scissor",
-      price: 60,
-      cart: false,
-      count: 1,
-    },
-    {
-      products: "Bottles",
-      price: 200,
-      cart: false,
-      count: 1,
-    },
-  ]);
-
+const ProductList = ({ products, setProducts, addToCarts, setAddToCart }) => {
+  const [searchProduct, setSearchProduct] = useState();
   const addProducts = (product, price) => {
     const allproducts = [
       ...products,
-      { products: product, price, count: 1, cart: false },
+      {
+        products: product,
+        price,
+        count: 1,
+        cart: false,
+      },
     ];
     setProducts(allproducts);
     // console.log("setProducts", setProducts);
   };
-
+  console.log("products", products);
   const removeProduct = (index) => {
     const allproducts = [...products];
-
+    const getDeleteItem = allproducts[index];
     allproducts.splice(index, 1);
     setProducts(allproducts);
+    if (
+      addToCarts?.filter((item) => item?.products === getDeleteItem.products)
+        .length > 0
+    ) {
+      let filterData = addToCarts.filter(
+        (item) => item?.products !== getDeleteItem.products
+      );
+      setAddToCart(filterData);
+    }
   };
 
   const addToCart = (index) => {
     const allproducts = [...products];
-    allproducts[index].cart = true;
-
+    // allproducts[index].cart = true;
+    // allproducts[index].cart = true;
     if (
-      addToCarts.filter(
+      addToCarts?.filter(
         (item) => item?.products === allproducts[index].products
       ).length > 0
     ) {
-      let filterData = addToCarts.filter(
-        (item) => item?.products !== allproducts[index].products
-      );
+      // let filterData = addToCarts.filter(
+      //   (item) =>  item?.products == allproducts[index].products
+      // );
+      // setAddToCart(filterData);
+      const filterData = addToCarts.map((data) => {
+        if (data?.products == allproducts[index].products) {
+          data.count += 1;
+        }
+        return data;
+      });
       setAddToCart(filterData);
     } else {
       setAddToCart((props) => [...props, { ...allproducts[index] }]);
     }
   };
 
-  useEffect(() => {
-    if (addToCarts.length > 0) {
-      localStorage.setItem("addToCart", JSON.stringify(addToCarts));
-    }
-    // setAddToCart(addToCarts);
-  }, [addToCarts]);
-
+  // useEffect(() => {
+  //   if (addToCarts?.length > 0) {
+  //     localStorage.setItem("addToCart", JSON.stringify(addToCarts));
+  //     console.log("addToCarts", addToCarts);
+  //   }
+  //   // setAddToCart(addToCarts);
+  // }, [addToCarts]);
+  // const handleInput = (e) => {
+  //   const searchData = products.filter((item) => {
+  //     return Object.values(item)
+  //       .join("")
+  //       .toLowerCase()
+  //       .includes(e.toLowerCase());
+  //   });
+  //   setSearchProduct(searchData);
+  // };
   return (
     <>
-      <FormInput addData={addProducts} />
-      {/* <AddCart cartItem={addToCart} /> */}
-      <br />
-      <br />
-      <hr />
       <div className="container">
+        <FormInput addData={addProducts} />
+        {/* <AddCart cartItem={addToCart} /> */}
+        <br />
+        <br />
+        <hr />
+        {/* <input onChange={(e) => handleInput(e.target.value)} />
+      <br />
+      <br /> */}
+
         <div className="row">
           {products.map((data, key) => {
             return (
